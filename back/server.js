@@ -1,11 +1,9 @@
 const express = require('express');
-const app = express();
+const { dbConnect } = require('./helpers/dbConnection');
 require('dotenv').config();
+const app = express();
 
-app.get('/', (req, res) => {
-    res.send('hello from node updated');
-})
-
+dbConnect();
 
 //defining port
 const port = process.env.PORT || 8000;

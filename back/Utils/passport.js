@@ -2,6 +2,7 @@
 var JwtStrategy = require("passport-jwt").Strategy;
 var ExtractJwt = require("passport-jwt").ExtractJwt;
 const passport = require("passport");
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const Users = require('../models/user');
 
@@ -28,6 +29,52 @@ function auth() {
         })
     )
 }
+function requireAuth(req, res, next) {
+    // Get the token
+    const token = req.header('token');
+    // check if not token
+    if (!token) {
+        return res.status(401).json({ 
+            Error: 'No Token is available' 
+        });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.SECRET);
+       // req.customer = decoded.customer;
+        next();
+    } catch (err) {
+        res.status(401).json({ 
+            error: 'Unautherized' 
+        });
+    }
+}
+
+function checkAuth(req, res, next) {
+ // Get the token
+ const token = req.header('token');
+ // check if not token
+ if (!token) {
+     return res.status(401).json({ 
+         Error: 'No Token is available' 
+     });
+ }
+
+ try {
+     const decoded = jwt.verify(token, process.env.SECRET);
+    let customer = decoded.customer && req.profile && req.profile.email === decoded.customer.email;
+    if(!customer){
+     throw({})
+    }
+
+     next();
+ } catch (err) {
+     res.status(401).json({ 
+         error: 'Unautherized' 
+     });
+ }
+}
 
 exports.auth = auth;
-exports.checkAuth = passport.authenticate("jwt", { session: false });
+exports.requireAuth = requireAuth;
+exports.checkAuth = checkAuth;

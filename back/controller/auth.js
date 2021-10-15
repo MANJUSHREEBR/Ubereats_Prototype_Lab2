@@ -33,11 +33,10 @@ exports.signin = (req, res) => {
         }
         if(customer.checkPassword(password)){
        
-            const payload = { _id: customer._id, username: customer.name};
+            const payload = { _id: customer._id, customer};
             const token = jwt.sign(payload, process.env.SECRET, {
                 expiresIn: 1008000
             });
-            //res.status(200).end("JWT " + token);
             return res.json({token, customer})
         }
         else{
@@ -46,4 +45,12 @@ exports.signin = (req, res) => {
             })
         }
     });
+}
+exports.isAdmin = (req, res, next) => {
+    if(req.profile.role === 0){
+        return res.status(403).json({
+            error: "Admin Resource! Access Denied"
+        })
+    }
+    next();
 }

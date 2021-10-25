@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const { v1: uuidv1 } = require('uuid');
 
-const userSchema = new mongoose.Schema({
+const restaurantSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
@@ -23,14 +23,7 @@ const userSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    trim: true,
-  },
-  dob: {
-    type: String,
-    trim: true,
-  },
-  nickname: {
-    type: String,
+    required: true,
     trim: true,
   },
   phone: {
@@ -42,6 +35,22 @@ const userSchema = new mongoose.Schema({
     trim: true,
   },
   about: {
+    type: String,
+    trim: true,
+  },
+  category: {
+    type: String,
+    trim: true,
+  },
+  deliverymode: {
+    type: String,
+    trim: true,
+  },
+  starttime: {
+    type: String,
+    trim: true,
+  },
+  endtime: {
     type: String,
     trim: true,
   },
@@ -57,7 +66,7 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // virtual field
-userSchema.virtual('password')
+restaurantSchema.virtual('password')
   .set(function (password) {
     this._password = password;
     this.salt = uuidv1();
@@ -66,7 +75,7 @@ userSchema.virtual('password')
   .get(function () {
     return this._password;
   });
-userSchema.methods = {
+restaurantSchema.methods = {
   checkPassword(password) {
     return this.encryptPassword(password) === this.hashed_password;
   },
@@ -81,4 +90,4 @@ userSchema.methods = {
     }
   },
 };
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Restaurant', restaurantSchema);

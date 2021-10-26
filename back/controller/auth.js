@@ -6,23 +6,37 @@ const { errorHandler } = require('../Utils/dbErrorHandler');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const { auth } = require('../utils/passport');
+const kafka = require('../kafka/client');
 
 auth();
 
 exports.signup = (req, res) => {
-  const user = new User(req.body);
-  user.save((err, user) => {
+//   const myData = { topic: 'user_signup', user: req.body };
+  kafka.make_request('user_signup', req.body, (err, results) => {
+    console.log('in result');
+    console.log(results);
     if (err) {
-      return res.status(400).json({
-        err: errorHandler(err),
-      });
+      console.log('Inside err');
+      res.status(500).send(err);
+    } else {
+      console.log('Inside else');
+      res.status(200).json(results);
+      res.end();
     }
-    user.salt = undefined;
-    user.hashed_password = undefined;
-    res.json({
-      user,
-    });
   });
+  //   const user = new User(req.body);
+  //   user.save((err, user) => {
+  //     if (err) {
+  //       return res.status(400).json({
+  //         err: errorHandler(err),
+  //       });
+  //     }
+  //     user.salt = undefined;
+  //     user.hashed_password = undefined;
+  //     res.json({
+  //       user,
+  //     });
+  //   });
 };
 
 exports.signin = (req, res) => {

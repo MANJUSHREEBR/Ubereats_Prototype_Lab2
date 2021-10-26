@@ -9,6 +9,7 @@ const { colors } = require('colors');
 const session = require('express-session');
 const cors = require('cors');
 const { dbConnect } = require('./Utils/dbConnection');
+const kafka = require('./kafka/client');
 require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');

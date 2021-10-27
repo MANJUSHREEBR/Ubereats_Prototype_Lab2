@@ -33,8 +33,8 @@ const Home = ({ location, match }) => {
     customerSigninInfo,
   } = customer;
   let customerLocation;
-  if (customerSigninInfo && customerSigninInfo.customer[0].location) {
-    customerLocation = customerSigninInfo.customer[0].location;
+  if (customerSigninInfo && customerSigninInfo.customer.location) {
+    customerLocation = customerSigninInfo.customer.location;
   }
   if (text !== undefined) {
     if (restaurants) {

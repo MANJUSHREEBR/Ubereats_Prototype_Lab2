@@ -71,7 +71,7 @@ const Menu = () => {
     <Navbar bg="light" expand="lg">
       <Container fluid>
         <i className="fal fa-angle-down" />
-        <LinkContainer to={customerSigninInfo && customerSigninInfo.customer[0].role === 1 ? `/restaurant/${customerSigninInfo.customer[0].id}` : '/search/Pickup'}>
+        <LinkContainer to={customerSigninInfo && customerSigninInfo.customer.role === 1 ? `/restaurant/${customerSigninInfo.customer.id}` : '/search/Pickup'}>
           <Navbar.Brand expand="lg">
             <Card.Img src={logo} variant="top" style={{ height: '80px' }} />
           </Navbar.Brand>
@@ -97,7 +97,7 @@ const Menu = () => {
         <Button variant="light" rounded>
           <i className="fas fa-map-marker-alt" />
           {' '}
-          {customerSigninInfo && customerSigninInfo.customer[0].location}
+          {customerSigninInfo && customerSigninInfo.customer.location}
         </Button>
         )
         )}
@@ -106,19 +106,19 @@ const Menu = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             {customerSigninInfo ? (
-              <NavDropdown title={customerSigninInfo.customer[0].name} id="username">
+              <NavDropdown title={customerSigninInfo.customer.name} id="username">
                 <LinkContainer to="/customerdashboard">
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
                 <LinkContainer to="/customer/orders">
                   <NavDropdown.Item>Orders</NavDropdown.Item>
                 </LinkContainer>
-                {customerSigninInfo && customerSigninInfo.customer[0].role === 0 && (
+                {customerSigninInfo && customerSigninInfo.customer.role === 0 && (
                 <LinkContainer to="/favorites">
                   <NavDropdown.Item>favorites</NavDropdown.Item>
                 </LinkContainer>
                 )}
-                {customerSigninInfo && customerSigninInfo.customer[0].role === 1 && (
+                {customerSigninInfo && customerSigninInfo.customer.role === 1 && (
                 <LinkContainer to="/create/dishes">
                   <NavDropdown.Item>Add dishes</NavDropdown.Item>
                 </LinkContainer>
@@ -137,7 +137,7 @@ const Menu = () => {
             )}
           </Nav>
           <Route render={() => <Search history={history} location={location} />} />
-          {(customerSigninInfo && customerSigninInfo.customer[0].role === 0) && (
+          {(customerSigninInfo && customerSigninInfo.customer.role === 0) && (
           <LinkContainer to="/cart" variant="dark">
             <Nav.Link>
               <Button variant="dark">

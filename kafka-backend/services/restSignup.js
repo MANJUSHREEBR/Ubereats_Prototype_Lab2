@@ -1,11 +1,11 @@
-const User = require('../models/user');
+const Restaurant = require('../models/restaurant');
 const { errorHandler } = require('../Utils/dbErrorHandler');
 
 function handle_request(msg, callback){
    
-    console.log("Inside user Signup kafka backend");
-    const user = new User(msg);
-    user.save((err, user) => {
+    console.log("Inside restaurant Signup kafka backend");
+    const restaurant = new Restaurant(msg);
+    restaurant.save((err, user) => {
       if (err) {
         callback(null, errorHandler(err));
       }

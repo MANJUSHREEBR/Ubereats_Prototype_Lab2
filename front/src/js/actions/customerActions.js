@@ -43,36 +43,36 @@ export const customerSignin = (user, isCustomer) => (dispatch, getState) => {
           payload: response,
         });
         localStorage.setItem('customerInfo', JSON.stringify(response));
-        if (isCustomer === 'customer') {
-          dispatch({ type: CART_GET_DATABASE_REQUEST });
-          const { customerSignin: { customerSigninInfo } } = getState();
+        //   if (isCustomer === 'customer') {
+        //     dispatch({ type: CART_GET_DATABASE_REQUEST });
+        //     const { customerSignin: { customerSigninInfo } } = getState();
 
-          fetch(`${API}/customer/cart/${customerSigninInfo.customer[0].id}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${customerSigninInfo.token}`,
-            },
+        //     fetch(`${API}/customer/cart/${customerSigninInfo.customer.id}`, {
+        //       method: 'GET',
+        //       headers: {
+        //         'Content-Type': 'application/json',
+        //         Authorization: `Bearer ${customerSigninInfo.token}`,
+        //       },
 
-          })
-            .then((resp) => resp.json())
-            .then((resp) => {
-              if (!resp.error) {
-                dispatch({
-                  type: CART_GET_DATABASE_SUCCESS,
-                  payload: resp,
-                });
-              } else {
-                throw (resp.error);
-              }
-            })
-            .catch((error) => {
-              dispatch({
-                type: CART_GET_DATABASE_FAIL,
-                payload: error,
-              });
-            });
-        }
+      //     })
+      //       .then((resp) => resp.json())
+      //       .then((resp) => {
+      //         if (!resp.error) {
+      //           dispatch({
+      //             type: CART_GET_DATABASE_SUCCESS,
+      //             payload: resp,
+      //           });
+      //         } else {
+      //           throw (resp.error);
+      //         }
+      //       })
+      //       .catch((error) => {
+      //         dispatch({
+      //           type: CART_GET_DATABASE_FAIL,
+      //           payload: error,
+      //         });
+      //       });
+      //   }
       } else {
         throw (response.error);
       }

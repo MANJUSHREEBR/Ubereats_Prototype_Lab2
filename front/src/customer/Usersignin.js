@@ -32,16 +32,16 @@ const Usersignin = ({ location, history }) => {
   const handleChange = (nameArg) => (event) => {
     setValues({ ...values, error: false, [nameArg]: event.target.value });
   };
-  const customer = useSelector((state) => state.customerSignin);
+  const customerInfo = useSelector((state) => state.customerSignin);
   const {
     loadingFromState, errorFromState, customerSigninInfo, successFromState,
-  } = customer;
-
+  } = customerInfo;
+  console.log(customerInfo);
   useEffect(() => {
-    if (customerSigninInfo && customerSigninInfo.customer[0].role === 0) {
+    if (customerSigninInfo && customerSigninInfo.customer.role === 0) {
       history.push('search/Pickup');
-    } else if ((customerSigninInfo && customerSigninInfo.customer[0].role === 1)) {
-      history.push(`/restaurant/${customerSigninInfo.customer[0].id}`);
+    } else if ((customerSigninInfo && customerSigninInfo.customer.role === 1)) {
+      history.push(`/restaurant/${customerSigninInfo.customer.id}`);
     }
   }, [history, customerSigninInfo]);
 

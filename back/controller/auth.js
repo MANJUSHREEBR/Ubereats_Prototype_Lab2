@@ -63,19 +63,31 @@ exports.signin = (req, res) => {
 };
 
 exports.restSignup = (req, res) => {
-  const restaurant = new Restaurant(req.body);
-  restaurant.save((err, user) => {
+  kafka.make_request('restaurant_signup', req.body, (err, results) => {
+    console.log('in result');
+    console.log(results);
     if (err) {
-      return res.status(400).json({
-        err: errorHandler(err),
-      });
+      console.log('Inside err');
+      res.status(500).send(err);
+    } else {
+      console.log('Inside else');
+      res.status(200).json(results);
+      res.end();
     }
-    user.salt = undefined;
-    user.hashed_password = undefined;
-    res.json({
-      user,
-    });
   });
+//   const restaurant = new Restaurant(req.body);
+//   restaurant.save((err, user) => {
+//     if (err) {
+//       return res.status(400).json({
+//         err: errorHandler(err),
+//       });
+//     }
+//     user.salt = undefined;
+//     user.hashed_password = undefined;
+//     res.json({
+//       user,
+//     });
+//   });
 };
 exports.restSignin = (req, res) => {
   const { email, password } = req.body;

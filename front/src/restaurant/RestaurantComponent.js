@@ -34,7 +34,7 @@ const RestaurantComponent = ({ history, match }) => {
     customerSigninInfo,
   } = customer;
   useEffect(() => {
-    dispatch(getRestaurantDetails(parseInt(match.params.id)));
+    dispatch(getRestaurantDetails(match.params.id));
     dispatch(RestaurantlistDishes(match.params.id));
   }, [dispatch, match]);
   const favoriteHandler = (e) => {
@@ -46,13 +46,13 @@ const RestaurantComponent = ({ history, match }) => {
       {/* <Link className="btn btn-success my-3" to="/"> Go Back</Link> */}
       <Row>
         <Col md={12}>
-          {customerSigninInfo && customerSigninInfo.customer[0].role === 0 && (
+          {customerSigninInfo && customerSigninInfo.customer.role === 0 && (
           // <Button variant="success" onClick={favoriteHandler} disabled={favDisabled} className="btn-md">Add as your Favorite Restaurant</Button>
           <button className="likeBtn" onClick={favoriteHandler} disabled={favDisabled} style={{ color: 'red', position: 'absolute' }}>
             <i className="fa fa-heart" style={{ color: 'red', position: 'relative' }} />
           </button>
           )}
-          <Jumbotron style={{ backgroundImage: `url(${API}/restaurant/photo/${match.params.id})`, backgroundSize: 'cover' }}>
+          <Jumbotron style={{ backgroundImage: `url(${restaurant.photo})`, backgroundSize: 'cover' }}>
             <h1 style={{ color: 'white' }}>
               {' '}
               {restaurant.name}

@@ -135,7 +135,7 @@ export const customerUpdateProfile = (user, token, id, isCustomer) => (dispatch,
           payload: response,
         });
         console.log(response);
-        const customerInfo = { token, customer: response.customer };
+        const customerInfo = { token, customer: response };
         dispatch({
           type: CUSTOMER_SIGNIN_SUCCESS,
           payload: customerInfo,

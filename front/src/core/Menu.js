@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable import/extensions */
 /* eslint-disable global-require */
 /* eslint-disable import/no-unresolved */
@@ -71,7 +72,7 @@ const Menu = () => {
     <Navbar bg="light" expand="lg">
       <Container fluid>
         <i className="fal fa-angle-down" />
-        <LinkContainer to={customerSigninInfo && customerSigninInfo.customer.role === 1 ? `/restaurant/${customerSigninInfo.customer.id}` : '/search/Pickup'}>
+        <LinkContainer to={customerSigninInfo && customerSigninInfo.customer.role === 1 ? `/restaurant/${customerSigninInfo.customer._id}` : '/search/Pickup'}>
           <Navbar.Brand expand="lg">
             <Card.Img src={logo} variant="top" style={{ height: '80px' }} />
           </Navbar.Brand>

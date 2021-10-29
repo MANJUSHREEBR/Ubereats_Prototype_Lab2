@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-debugger */
 /* eslint-disable jsx-a11y/img-redundant-alt */
@@ -33,26 +34,26 @@ const Customerdashboard = ({ history }) => {
     customerSigninInfo,
   } = customer || '';
   const { loadingFromState, errorFromState, successFromState } = useSelector((state) => state.customerUpdateProfile);
-  let ImageApi = '';
-  if (customerSigninInfo && customerSigninInfo.customer[0].role === 1) {
-    ImageApi = `${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`;
-  } else if (customerSigninInfo) {
-    ImageApi = `${API}/customer/photo/${customerSigninInfo.customer[0].id}`;
-  }
-  const [imageUrl, setImageUrl] = useState(ImageApi);
+  // let ImageApi = '';
+  // if (customerSigninInfo && customerSigninInfo.customer.role === 1) {
+  //   ImageApi = `${API}/restaurant/photo`;
+  // } else if (customerSigninInfo) {
+  //   ImageApi = `${API}/customer/photo/${customerSigninInfo.customer[0].id}`;
+  // }
   const [values, setValues] = useState({
-    name: customerSigninInfo ? customerSigninInfo.customer[0].name : '',
-    email: customerSigninInfo ? customerSigninInfo.customer[0].email : '',
-    phone: customerSigninInfo ? customerSigninInfo.customer[0].phone : '',
-    location: customerSigninInfo ? customerSigninInfo.customer[0].location : '',
-    nickname: customerSigninInfo ? customerSigninInfo.customer[0].nickname : '',
+    name: customerSigninInfo ? customerSigninInfo.customer.name : '',
+    email: customerSigninInfo ? customerSigninInfo.customer.email : '',
+    phone: customerSigninInfo ? customerSigninInfo.customer.phone : '',
+    location: customerSigninInfo ? customerSigninInfo.customer.location : '',
+    nickname: customerSigninInfo ? customerSigninInfo.customer.nickname : '',
     loading: '',
-    deliverymode: customerSigninInfo ? customerSigninInfo.customer[0].deliverymode : '',
-    category: customerSigninInfo ? customerSigninInfo.customer[0].category : '',
-    about: customerSigninInfo ? customerSigninInfo.customer[0].about : ' ',
-    starttime: customerSigninInfo ? customerSigninInfo.customer[0].starttime : ' ',
-    endtime: customerSigninInfo ? customerSigninInfo.customer[0].endtime : ' ',
-    dob: customerSigninInfo ? customerSigninInfo.customer[0].dob : ' ',
+    deliverymode: customerSigninInfo ? customerSigninInfo.customer.deliverymode : '',
+    category: customerSigninInfo ? customerSigninInfo.customer.category : '',
+    about: customerSigninInfo ? customerSigninInfo.customer.about : ' ',
+    starttime: customerSigninInfo ? customerSigninInfo.customer.starttime : ' ',
+    endtime: customerSigninInfo ? customerSigninInfo.customer.endtime : ' ',
+    dob: customerSigninInfo ? customerSigninInfo.customer.dob : ' ',
+    photo: customerSigninInfo ? customerSigninInfo.customer.photo : ' ',
     error: '',
     createdDish: '',
     reDirectToProfile: false,
@@ -76,6 +77,7 @@ const Customerdashboard = ({ history }) => {
     starttime,
     endtime,
     dob,
+    photo,
   } = values;
 
   const handleChange = (Argname) => (event) => {
@@ -89,7 +91,7 @@ const Customerdashboard = ({ history }) => {
       history.push('./customersignin');
     }
     setValues({ ...values, formData: new FormData() });
-  }, [history, imageUrl]);
+  }, [history]);
 
   const clickSubmit = (e) => {
     e.preventDefault();
@@ -97,16 +99,16 @@ const Customerdashboard = ({ history }) => {
       ...values, error: '', loading: true,
     });
     let isCustomer = 'customer';
-    if (customerSigninInfo.customer[0].role === 1) {
+    if (customerSigninInfo.customer.role === 1) {
       isCustomer = 'restaurant';
     }
-    dispatch(customerUpdateProfile(formData, customerSigninInfo.token, customerSigninInfo.customer[0].id, isCustomer));
-    if (customerSigninInfo && customerSigninInfo.customer[0].role === 1) {
-      setImageUrl(`${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`);
+    dispatch(customerUpdateProfile(formData, customerSigninInfo.token, customerSigninInfo.customer._id, isCustomer));
+    if (customerSigninInfo && customerSigninInfo.customer.role === 1) {
+      // setImageUrl(`${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`);
       // document.getElementById('imageDiv').src = `${API}/restaurant/photo/${customerSigninInfo.customer[0].id}`;
     } else if (customerSigninInfo) {
       // document.getElementById('imageDiv').src = `${API}/customer/photo/${customerSigninInfo.customer[0].id}`;
-      setImageUrl(`${API}/customer/photo/${customerSigninInfo.customer[0].id}`);
+      // setImageUrl(`${API}/customer/photo/${customerSigninInfo.customer[0].id}`);
     }
 
     handleShow();
@@ -128,22 +130,22 @@ const Customerdashboard = ({ history }) => {
         <label className="text-muted">Email</label>
         <input onChange={handleChange('email')} type="text" name="email" className="form-control" value={email} />
       </div>
-      {customerSigninInfo.customer[0].role === 0 && (
+      {customerSigninInfo.customer.role === 0 && (
       <div className="form-group">
         <label className="text-muted">Nickname</label>
         <input onChange={handleChange('nickname')} type="text" name="nickname" className="form-control" value={nickname} />
       </div>
       )}
-      {customerSigninInfo.customer[0].role === 0 && (
+      {customerSigninInfo.customer.role === 0 && (
       <div className="form-group">
         <label className="text-muted">Date Of birth</label>
         <input onChange={handleChange('dob')} type="date" name="dob" className="form-control" value={dob} />
       </div>
       )}
-      <div className="form-group">
+      {/* <div className="form-group">
         <label className="text-muted">Email</label>
         <input onChange={handleChange('email')} type="email" name="email" className="form-control" value={email} />
-      </div>
+      </div> */}
       <div className="form-group">
         <label className="text-muted">Phone</label>
         <input onChange={handleChange('phone')} type="number" name="phone" className="form-control" value={phone} />
@@ -152,7 +154,7 @@ const Customerdashboard = ({ history }) => {
         <label className="text-muted">About</label>
         <textarea onChange={handleChange('about')} type="number" name="number" className="form-control" value={about} />
       </div>
-      {customerSigninInfo.customer[0].role === 1 && (
+      {customerSigninInfo.customer.role === 1 && (
       <div className="form-group">
         <label className="text-muted">Delivery Mode</label>
         <select onChange={handleChange('deliverymode')} name="deliverymode" className="form-control" value={deliverymode}>
@@ -163,7 +165,7 @@ const Customerdashboard = ({ history }) => {
         </select>
       </div>
       )}
-      {customerSigninInfo.customer[0].role === 1 && (
+      {customerSigninInfo.customer.role === 1 && (
         <>
           <div className="form-group">
             <label className="text-muted"> Start Time </label>
@@ -175,7 +177,7 @@ const Customerdashboard = ({ history }) => {
           </div>
         </>
       )}
-      {customerSigninInfo.customer[0].role === 1 && (
+      {customerSigninInfo.customer.role === 1 && (
       <div className="form-group">
         <label className="text-muted">Food Category</label>
         <select onChange={handleChange('category')} name="deliverymode" className="form-control" value={category}>
@@ -220,7 +222,7 @@ const Customerdashboard = ({ history }) => {
       <div className="col-md-1">
 
         <Image
-          src={imageUrl}
+          src={photo}
           alt="Image not found"
           id="imageDiv1"
           onError={(e) => { e.target.onerror = null; e.target.src = 'https://dummyimage.com/100.png/09f/fff'; }}

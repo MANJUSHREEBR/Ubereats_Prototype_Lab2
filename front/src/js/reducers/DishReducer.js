@@ -36,7 +36,7 @@ export const DishDetailsReducer = (state = { dish: [{}] }, action) => {
     case DISH_DETAILS_SUCCESS:
       return {
         loadingFromState: false,
-        dish: action.payload[0],
+        dish: action.payload,
       };
     case DISH_DETAILS_FAIL:
       return { loadingFromState: false, errorFromState: action.payload };

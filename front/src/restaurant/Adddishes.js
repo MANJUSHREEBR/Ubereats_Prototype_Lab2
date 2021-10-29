@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-filename-extension */
@@ -55,12 +56,12 @@ const Adddishes = () => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: '', loading: true });
-    createDishes(customerSigninInfo.customer[0].id, customerSigninInfo.token, formData)
+    createDishes(customerSigninInfo.customer._id, customerSigninInfo.token, formData)
       .then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error });
         } else {
-          const { result } = data;
+          // const { result } = data;
           setValues({
             ...values,
             name: '',
@@ -72,7 +73,7 @@ const Adddishes = () => {
             loading: false,
             error: false,
             category: '',
-            createdDish: result.name,
+            createdDish: data.name,
           });
         }
       });
@@ -88,19 +89,19 @@ const Adddishes = () => {
       </div>
       <div className="form-group">
         <label className="text-muted">Name</label>
-        <input onChange={handleChange('name')} type="text" className="form-control" value={name} />
+        <input onChange={handleChange('name')} type="text" name="name" className="form-control" value={name} />
       </div>
       <div className="form-group">
         <label className="text-muted">Description</label>
-        <textarea onChange={handleChange('description')} type="text" className="form-control" value={description} />
+        <textarea onChange={handleChange('description')} name="description" type="text" className="form-control" value={description} />
       </div>
       <div className="form-group">
         <label className="text-muted">Main Ingredients</label>
-        <textarea onChange={handleChange('mainingredient')} type="text" className="form-control" value={mainingredient} />
+        <textarea onChange={handleChange('mainingredient')} name="mainingredient" type="text" className="form-control" value={mainingredient} />
       </div>
       <div className="form-group">
         <label className="text-muted">Category</label>
-        <select onChange={handleChange('category')} className="form-control" value={category}>
+        <select onChange={handleChange('category')} name="category" className="form-control" value={category}>
           <option>Select</option>
           <option value="Veg">Veg</option>
           <option value="Nonveg">Nonveg</option>

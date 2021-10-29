@@ -7,6 +7,7 @@ const { dbConnect } = require('./Utils/dbConnection');
 //var Books = require('./services/books.js');
 var userSignup = require('./services/userSignup.js');
 var restSignup = require('./services/restSignup.js');
+var restLists = require('./services/restLists.js');
 dbConnect();
 function handleTopicRequest(topic_name,fname){
     //var topic_name = 'root_topic';
@@ -43,3 +44,4 @@ function handleTopicRequest(topic_name,fname){
 //handleTopicRequest("post_book",Books)
 handleTopicRequest("user_signup",userSignup)
 handleTopicRequest("restaurant_signup",restSignup)
+handleTopicRequest("restaurant_lists",restLists)

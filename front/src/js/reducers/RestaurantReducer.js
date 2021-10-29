@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/prefer-default-export */
 import {
   RESTAURANT_LIST_REQUEST,
@@ -11,14 +12,15 @@ import {
   RESTAURANTDISH_LIST_FAIL,
 } from '../constants/restaurantConstants';
 
-export const RestaurantListReducer = (state = { restaurants: [] }, action) => {
+export const RestaurantListReducer = (state = [], action) => {
+  console.log(action.payload);
   switch (action.type) {
     case RESTAURANT_LIST_REQUEST:
       return { loadingFromState: true, restaurants: [] };
     case RESTAURANT_LIST_SUCCESS:
       return {
         loadingFromState: false,
-        restaurants: action.payload.restaurant,
+        restaurants: action.payload,
       };
     case RESTAURANT_LIST_FAIL:
       return { loadingFromState: false, errorFromState: action.payload };
@@ -50,7 +52,7 @@ export const RestaurantDishListReducer = (state = { restdishes: [] }, action) =>
     case RESTAURANTDISH_LIST_SUCCESS:
       return {
         loadingFromState: false,
-        restdishes: action.payload.dishes,
+        restdishes: action.payload,
       };
     case RESTAURANTDISH_LIST_FAIL:
       return { loadingFromState: false, errorFromState: action.payload };

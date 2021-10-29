@@ -14,7 +14,7 @@ import { API } from '../../config';
 
 export const listRestaurants = (keyword = 'Pickup', location = 'San Jose') => (dispatch) => {
   dispatch({ type: RESTAURANT_LIST_REQUEST });
-  fetch(`${API}/restaurant?search=${keyword}&location=${location}`, {
+  fetch(`${API}/restaurants?search=${keyword}&location=${location}`, {
     method: 'GET',
   })
     .then((response) => response.json())

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/button-has-type */
@@ -12,14 +13,14 @@ import ShowImage from './ShowImage';
 const CardComponent = ({ dish, url }) => (
   <Card className="my-3 p-3 rounded">
     {(!url) && (
-    <Link to={`/dishes/${dish.id}`}>
+    <Link to={`/dishes/${dish._id}`}>
       <ShowImage item={dish} url="dishes" style={{ height: '80px', width: '100%' }} />
     </Link>
     )}
     {
     (url)
      && (
-     <Link to={`/restaurant/${dish.id}`}>
+     <Link to={`/restaurant/${dish._id}`}>
        <ShowImage item={dish} url={url} style={{ height: '80px', width: '100%' }} />
      </Link>
      )

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-bitwise */
@@ -41,7 +42,7 @@ const Usersignin = ({ location, history }) => {
     if (customerSigninInfo && customerSigninInfo.customer.role === 0) {
       history.push('search/Pickup');
     } else if ((customerSigninInfo && customerSigninInfo.customer.role === 1)) {
-      history.push(`/restaurant/${customerSigninInfo.customer.id}`);
+      history.push(`/restaurant/${customerSigninInfo.customer._id}`);
     }
   }, [history, customerSigninInfo]);
 

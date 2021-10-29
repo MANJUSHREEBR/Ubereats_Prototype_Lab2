@@ -33,7 +33,7 @@ const DishComponent = ({ history, match }) => {
     customerSigninInfo,
   } = customer;
   useEffect(() => {
-    dispatch(getDishDetails(parseInt(match.params.id)));
+    dispatch(getDishDetails(match.params.id));
   }, [dispatch, match]);
 
   const addToCart = () => {
@@ -68,7 +68,7 @@ const DishComponent = ({ history, match }) => {
       <Button className="btn btn-dark my-3" onClick={goback}> Go Back</Button>
       <Row>
         <Col md={6}>
-          <Image src={`${API}/dishes/photo/${match.params.id}`} alt={dish.name} fluid />
+          <Image src={dish.photo} alt={dish.name} fluid />
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">
@@ -135,14 +135,14 @@ const DishComponent = ({ history, match }) => {
               </Row>
 
             </ListGroup.Item>
-            {(customerSigninInfo && customerSigninInfo.customer[0].role === 0) && (
+            {(customerSigninInfo && customerSigninInfo.customer.role === 0) && (
             <ListGroup.Item>
               <Button className="btn-block bg-dark" type="button" onClick={addToCart}>
                 Add To cart
               </Button>
             </ListGroup.Item>
             ) }
-            {customerSigninInfo && customerSigninInfo.customer[0].role === 1 && (
+            {customerSigninInfo && customerSigninInfo.customer.role === 1 && (
             <ListGroup.Item>
               <Button className="btn-block bg-dark" type="button" onClick={editDishes}>
                 Edit dish

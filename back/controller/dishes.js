@@ -1,11 +1,16 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 const formidable = require('formidable');
 const _ = require('lodash');
 const fs = require('fs');
+const mongoose = require('mongoose');
 const { cloudinary } = require('../Utils/cloudinary');
 const { errorHandler } = require('../Utils/dbErrorHandler');
 const Dishes = require('../models/dishes');
+
+const { ObjectId } = mongoose.Schema;
 
 exports.findDishById = (req, res, next, id) => {
   Dishes.findById(id).exec((err, dish) => {
@@ -84,18 +89,15 @@ exports.update = (req, res) => {
     });
   });
 };
-
-exports.photo = (req, res, next) => {
-//   console.log(req.dish.photo);
-//   const reqphoto = req.dish.photo;
-//   if (req.dish) {
-//     res.writeHead(200, { 'Content-Type': 'image/jpeg' });
-//     fs.readFile(reqphoto,
-//       (err, content) => {
-//         // Serving the image
-//         res.end(req.dish.photo);
-//       });
-//   }
-  res.end(req.dish.photo);
-  next();
+exports.listAll = async (req, res) => {
+  Dishes.find({ restaurant: req.restaurant._id })
+    .populate('restaurant')
+    .exec((err, restaurants) => {
+      if (err) {
+        return res.status(400).json({
+          error: 'Dishes not found',
+        });
+      }
+      res.send(restaurants);
+    });
 };

@@ -5,7 +5,7 @@ export const createDishes = (userId, token, dish) => fetch(`${API}/dishes/create
   method: 'POST',
   headers: {
     Accept: 'application/json',
-    Authorization: `Bearer ${token}`,
+    Authorization: `${token}`,
   },
   body: dish,
 

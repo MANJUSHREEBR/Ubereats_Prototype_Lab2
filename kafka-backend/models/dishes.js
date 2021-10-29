@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
+
+//const { ObjectId } = mongoose.Schema;
 
 const dishesSchema = new mongoose.Schema({
   restaurant: {
-    type: ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Restaurant',
-    required: true,
   },
   name: {
     type: String,

@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import {
   Row, Col, ListGroup, Image, Form, Button, Card, Modal,
 } from 'react-bootstrap';
-import { addToCart } from '../js/actions/cartActions';
+import { addToCart, removeFromCart } from '../js/actions/cartActions';
 import RestaurantPrivateRoute from '../auth/RestaurantPrivateRoute';
 import { API } from '../config';
 
@@ -21,13 +21,13 @@ const Cart = ({ match, location, history }) => {
   const [show, setShow] = useState(true);
   const dishId = match.params.id;
   const qty = location.search ? Number(location.search.split('=')[1]) : 1;
-  const newitems = location.search ? (location.search.split('&')[0]).split('?')[1] : 'false';
+  // const newitems = location.search ? (location.search.split('&')[0]).split('?')[1] : 'false';
   const dispatch = useDispatch();
   useEffect(() => {
     if (dishId) {
-      dispatch(addToCart(dishId, qty, newitems));
+      dispatch(addToCart(dishId, qty));
     }
-  }, [dispatch, qty, dishId, newitems]);
+  }, [dispatch, qty, dishId]);
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
@@ -41,6 +41,13 @@ const Cart = ({ match, location, history }) => {
       history.push('/checkout');
     }
   };
+  const removeFromCartHandler = (id) => {
+    dispatch(removeFromCart(id));
+    if (cartItems.length === 0) {
+      localStorage.removeItem('restId');
+    }
+  };
+
   return (
     <div>
       <Modal show={show} onHide={handleClose}>
@@ -63,7 +70,7 @@ const Cart = ({ match, location, history }) => {
                     <ListGroup.Item key={item.product}>
                       <Row>
                         <Col md={3}>
-                          <Image src={`${API}/dishes/photo/${item.dish}`} alt={item.name} fluid rounded />
+                          <Image src={`${item.photo}`} alt={item.name} fluid rounded />
                         </Col>
                         <Col md={2}>
                           <Link to={`/dishes/${item.dish}`}>
@@ -79,7 +86,7 @@ const Cart = ({ match, location, history }) => {
                           <input style={{ width: '35px' }} className="mb-3" type="select" value={item.qty} onChange={(e) => dispatch(addToCart(item.dish, Number(e.target.value)))} />
                         </Col>
                         <Col md={3}>
-                          <Button type="button" variant="light">
+                          <Button type="button" variant="light" onClick={() => removeFromCartHandler(item.dish)}>
                             <i className="fas fa-trash" />
                           </Button>
                         </Col>

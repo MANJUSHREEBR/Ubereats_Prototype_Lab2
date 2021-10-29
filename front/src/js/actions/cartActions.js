@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable eqeqeq */
 /* eslint-disable import/named */
 /* eslint-disable no-unused-expressions */
@@ -9,7 +10,8 @@ import {
   CART_SAVE_SUCCESS,
   CART_SAVE_FAIL,
   CART_REMOVE_ITEMS,
-  CART_CLEAR_AND_ADD_NEW_ITEM,
+  CART_REMOVE_ITEM,
+  // CART_CLEAR_AND_ADD_NEW_ITEM,
   // CART_GET_DATABASE_REQUEST,
   // CART_GET_DATABASE_SUCCESS,
   // CART_GET_DATABASE_FAIL,
@@ -17,38 +19,39 @@ import {
 import { CUSTOMER_SIGNOUT_SUCCESS } from '../constants/customerConstants';
 import { API } from '../../config';
 
-export const addToCart = (id, qty, newitems) => (dispatch, getState) => {
+export const addToCart = (id, qty) => (dispatch, getState) => {
   fetch(`${API}/dishes/${id}`, {
     method: 'GET',
   })
     .then((response) => response.json())
     .then((response) => {
       if (!response.error) {
-        if (newitems == 'false') {
-          dispatch({
-            type: CART_ADD_ITEM,
-            payload: {
-              dish: response[0].id,
-              name: response[0].name,
-              photo: response[0].photo,
-              price: response[0].price,
-              description: response[0].description,
-              qty,
-            },
-          });
-        } else {
-          dispatch({
-            type: CART_CLEAR_AND_ADD_NEW_ITEM,
-            payload: {
-              dish: response[0].id,
-              name: response[0].name,
-              photo: response[0].photo,
-              price: response[0].price,
-              description: response[0].description,
-              qty,
-            },
-          });
-        }
+        // if (newitems == 'false') {
+        dispatch({
+          type: CART_ADD_ITEM,
+          payload: {
+            dish: response._id,
+            name: response.name,
+            photo: response.photo,
+            price: response.price,
+            description: response.description,
+            qty,
+          },
+        });
+        // }
+        // else {
+        //   dispatch({
+        //     type: CART_CLEAR_AND_ADD_NEW_ITEM,
+        //     payload: {
+        //       dish: response.id,
+        //       name: response.name,
+        //       photo: response.photo,
+        //       price: response.price,
+        //       description: response.description,
+        //       qty,
+        //     },
+        //   });
+        // }
         localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
       }
     });
@@ -101,4 +104,12 @@ export const saveCartToDatabase = (order) => (dispatch, getState) => {
         payload: error,
       });
     });
+};
+
+export const removeFromCart = (id) => (dispatch, getState) => {
+  dispatch({
+    type: CART_REMOVE_ITEM,
+    payload: id,
+  });
+  localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
 };

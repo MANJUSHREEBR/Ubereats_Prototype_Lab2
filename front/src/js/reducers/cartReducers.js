@@ -6,6 +6,7 @@ import {
   CART_SAVE_REQUEST,
   CART_SAVE_SUCCESS,
   CART_SAVE_FAIL,
+  CART_REMOVE_ITEM,
   CART_REMOVE_ITEMS,
   CART_GET_DATABASE_REQUEST,
   CART_GET_DATABASE_SUCCESS,
@@ -43,6 +44,11 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, acti
       return {
         ...state,
         cartItems: [],
+      };
+    case CART_REMOVE_ITEM:
+      return {
+        ...state,
+        cartItems: state.cartItems.filter((x) => x.dish !== action.payload),
       };
     case CART_GET_DATABASE_REQUEST:
       return {

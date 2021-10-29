@@ -51,8 +51,8 @@ const Menu = () => {
     } else {
       dispatch(logout());
     }
-    setRadioValue('Pickup');
-    history.push('/search/Pickup');
+    setRadioValue('Delivery');
+    history.push('/search/Delivery');
   };
   const radios = [
     { name: 'Delivery' },
@@ -72,7 +72,7 @@ const Menu = () => {
     <Navbar bg="light" expand="lg">
       <Container fluid>
         <i className="fal fa-angle-down" />
-        <LinkContainer to={customerSigninInfo && customerSigninInfo.customer.role === 1 ? `/restaurant/${customerSigninInfo.customer._id}` : '/search/Pickup'}>
+        <LinkContainer to={customerSigninInfo && customerSigninInfo.customer.role === 1 ? `/restaurant/${customerSigninInfo.customer._id}` : '/search/Delivery'}>
           <Navbar.Brand expand="lg">
             <Card.Img src={logo} variant="top" style={{ height: '80px' }} />
           </Navbar.Brand>

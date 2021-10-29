@@ -38,10 +38,10 @@ const DishComponent = ({ history, match }) => {
 
   const addToCart = () => {
     if (!localStorage.getItem('restId')) {
-      localStorage.setItem('restId', dish.restaurant_id);
-      history.push(`/cart/${parseInt(match.params.id)}?false&qty=${qty}`);
-    } else if (localStorage.getItem('restId') == dish.restaurant_id) {
-      history.push(`/cart/${parseInt(match.params.id)}?false&qty=${qty}`);
+      localStorage.setItem('restId', dish.restaurant);
+      history.push(`/cart/${match.params.id}?false&qty=${qty}`);
+    } else if (localStorage.getItem('restId') == dish.restaurant) {
+      history.push(`/cart/${match.params.id}?false&qty=${qty}`);
     } else {
       handleShow();
     }
@@ -60,8 +60,8 @@ const DishComponent = ({ history, match }) => {
     history.push('/edit/dishes');
   };
   const updateCart = () => {
-    localStorage.setItem('restId', dish.restaurant_id);
-    history.push(`/cart/${parseInt(match.params.id)}?true&qty=${qty}`);
+    localStorage.setItem('restId', dish.restaurant);
+    history.push(`/cart/${match.params.id}?false&qty=${qty}`);
   };
   return (
     <>

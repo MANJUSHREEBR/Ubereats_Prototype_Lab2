@@ -13,7 +13,7 @@ const SearchBox = ({ history, location }) => {
       setKeyword('');
       history.push(`${location.pathname}?text=${val}`);
     } else {
-      history.push('/search/Pickup');
+      history.push('/search/Delivery');
     }
   };
 

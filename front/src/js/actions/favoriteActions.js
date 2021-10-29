@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
 import {
   ADD_FAVORITE_REQUEST,
@@ -13,7 +14,7 @@ import { API } from '../../config';
 export const saveFavoriteToDatabase = (id) => (dispatch, getState) => {
   dispatch({ type: ADD_FAVORITE_REQUEST });
   const { customerSignin: { customerSigninInfo } } = getState();
-  fetch(`${API}/customer/addfav/${customerSigninInfo.customer[0].id}/${id}`, {
+  fetch(`${API}/customer/addfav/${customerSigninInfo.customer._id}/${id}`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -44,7 +45,7 @@ export const saveFavoriteToDatabase = (id) => (dispatch, getState) => {
 export const listFavRestaurants = () => (dispatch, getState) => {
   dispatch({ type: GET_FAVORITES_REQUEST });
   const { customerSignin: { customerSigninInfo } } = getState();
-  fetch(`${API}/customer/favorites/${customerSigninInfo.customer[0].id}`, {
+  fetch(`${API}/customer/favorites/${customerSigninInfo.customer._id}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${customerSigninInfo.token}`,

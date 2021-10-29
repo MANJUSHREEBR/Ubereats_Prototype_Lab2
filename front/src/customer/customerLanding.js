@@ -54,7 +54,7 @@ const Home = ({ location, match }) => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
   if (cartItems.length) {
-    localStorage.setItem('restId', cartItems[0].restaurant_id);
+    localStorage.setItem('restId', cartItems[0].restaurant);
   } else {
     localStorage.removeItem('restId');
   }

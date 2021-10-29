@@ -36,7 +36,7 @@ export const FavRestaurantListReducer = (state = { FavRestaurants: [] }, action)
     case GET_FAVORITES_SUCCESS:
       return {
         loadingFromState: false,
-        FavRestaurants: action.payload.favorites,
+        FavRestaurants: action.payload,
       };
     case GET_FAVORITES_FAIL:
       return { loadingFromState: false, errorFromState: action.payload };

@@ -48,8 +48,13 @@ const PlaceOrder = ({ history }) => {
 
   const placeOrderHandler = () => {
     dispatch(createOrder({
-      cart,
-      restaurantId: localStorage.getItem('restId'),
+      orderItems: cart.cartItems,
+      shippingAddress: cart.shippingAddress,
+      restaurant: localStorage.getItem('restId'),
+      itemsPrice: cart.itemsPrice,
+      shippingPrice: cart.shippingPrice,
+      taxPrice: cart.taxPrice,
+      totalPrice: cart.totalPrice,
     }));
     localStorage.removeItem('restId');
     handleShow();
@@ -100,7 +105,7 @@ const PlaceOrder = ({ history }) => {
                     <ListGroup.Item>
                       <Row>
                         <Col md={2}>
-                          <Image src={`${API}/dishes/photo/${item.dish}`} alt={item.name} fluid rounded />
+                          <Image src={item.photo} alt={item.name} fluid rounded />
                         </Col>
                         <Col>
                           <Link to={`dishes/${item.dish}`}>

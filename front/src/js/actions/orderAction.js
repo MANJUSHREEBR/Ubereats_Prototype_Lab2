@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 /* eslint-disable import/prefer-default-export */
@@ -22,8 +23,8 @@ import { API } from '../../config';
 export const createOrder = (order) => (dispatch, getState) => {
   dispatch({ type: ORDER_CREATE_REQUEST });
   const { customerSignin: { customerSigninInfo } } = getState();
-  order.customer_id = customerSigninInfo.customer[0].id;
-  fetch(`${API}/order/create/${customerSigninInfo.customer[0].id}`, {
+  order.user = customerSigninInfo.customer._id;
+  fetch(`${API}/order/create`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -56,6 +57,7 @@ export const createOrder = (order) => (dispatch, getState) => {
       });
     });
 };
+
 export const getOrderDetails = (id) => (dispatch, getState) => {
   dispatch({ type: ORDER_DETAILS_REQUEST });
   const { customerSignin: { customerSigninInfo } } = getState();

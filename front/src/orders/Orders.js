@@ -90,14 +90,14 @@ const Orders = ({ match, history }) => {
                     Order:
                     {orderItems.orderid}
                   </p>
-                  {customerSigninInfo.customer[0].role === 0 && (
+                  {customerSigninInfo.customer.role === 0 && (
                   <ListGroup.Item>
                     <p> Status: </p>
                     { selectorVal}
                   </ListGroup.Item>
                   )}
-                  {customerSigninInfo.customer[0].deliverymode && (customerSigninInfo.customer[0].deliverymode.toLowerCase() === 'Delivery'.toLowerCase()
-                  || customerSigninInfo.customer[0].deliverymode.toLowerCase() === 'Delivery & Pickup'.toLowerCase()) && (
+                  {customerSigninInfo.customer.deliverymode && (customerSigninInfo.customer.deliverymode.toLowerCase() === 'Delivery'.toLowerCase()
+                  || customerSigninInfo.customer.deliverymode.toLowerCase() === 'Delivery & Pickup'.toLowerCase()) && (
                   <ListGroup.Item>
                     <label className="text-muted">Change Status here</label>
                     <select onChange={statusUpdateHandler} className="form-control" value={selectorVal}>
@@ -109,7 +109,7 @@ const Orders = ({ match, history }) => {
                     </select>
                   </ListGroup.Item>
                   )}
-                  {customerSigninInfo.customer[0].deliverymode && customerSigninInfo.customer[0].deliverymode.toLowerCase() === 'Pickup'.toLowerCase() && (
+                  {customerSigninInfo.customer.deliverymode && customerSigninInfo.customer.deliverymode.toLowerCase() === 'Pickup'.toLowerCase() && (
                   <ListGroup.Item>
                     <label className="text-muted">Change Status here</label>
                     <select onChange={statusUpdateHandler} className="form-control" value={selectorVal}>

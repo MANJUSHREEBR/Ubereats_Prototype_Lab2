@@ -50,7 +50,7 @@ export const myOrderListReducer = (state = { loading: true, orders: [] }, action
     case MY_ORDER_LIST_SUCCESS:
       return {
         loading: false,
-        orders: action.payload.orders,
+        orders: action.payload,
       };
     case MY_ORDER_LIST_FAIL:
       return {

@@ -23,6 +23,7 @@ const OrdeListOrders = ({ match }) => {
   const dispatch = useDispatch();
   const myOrderList = useSelector((state) => state.myOrderList);
   let { loading, orders, error } = myOrderList;
+  console.log(orders);
   const customer = useSelector((state) => state.customerSignin);
   const {
     customerSigninInfo,
@@ -66,9 +67,9 @@ const OrdeListOrders = ({ match }) => {
             <thead>
               <tr>
                 <th>ID</th>
-                {customerSigninInfo && customerSigninInfo.customer[0].role === 0
+                {customerSigninInfo && customerSigninInfo.customer.role === 0
                 && (<th>Restaurant Profile</th>)}
-                {customerSigninInfo && customerSigninInfo.customer[0].role === 1
+                {customerSigninInfo && customerSigninInfo.customer.role === 1
                 && (<th>User Profile</th>)}
                 <th>Date</th>
                 <th>Status</th>
@@ -79,47 +80,47 @@ const OrdeListOrders = ({ match }) => {
               {orders && orders.map((order) => (
                 <tr key={order.orderid}>
                   <td>{order.orderid}</td>
-                  {customerSigninInfo && customerSigninInfo.customer[0].role === 0
+                  {customerSigninInfo && customerSigninInfo.customer.role === 0
                 && (
                 <td>
                   <p>
                     Name:
-                    {order.name}
+                    {order.restaurant.name}
                   </p>
                   <p>
                     Email:
-                    {order.email}
+                    {order.restaurant.email}
                   </p>
                   <p>
                     Location:
-                    {order.location}
+                    {order.restaurant.location}
                   </p>
                 </td>
                 )}
-                  {customerSigninInfo && customerSigninInfo.customer[0].role === 1
+                  {customerSigninInfo && customerSigninInfo.customer.role === 1
                 && (
                 <td>
                   <p>
                     Name :
-                    {order.name}
+                    {order.user.name}
                   </p>
                   <p>
                     Email :
-                    {order.email}
+                    {order.user.email}
                   </p>
                   {/* <p>
                     Shipping Address :
                     {order.address}
                   </p> */}
-                  {order.phone && (
+                  {order.user.phone && (
                   <p>
                     Phone:
-                    {order.phone}
+                    {order.user.phone}
                   </p>
                   )}
                 </td>
                 )}
-                  <td>{order.orderdate.substring(0, 10)}</td>
+                  <td>{order.updatedAt.substring(0, 10)}</td>
                   <td>
 
                     <span>{ order.status }</span>

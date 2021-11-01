@@ -15,6 +15,7 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const restaurantRoutes = require('./routes/restaurant');
 const dishesRoutes = require('./routes/dishes');
+const ordersRoutes = require('./routes/order');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/ubereats', authRoutes);
 app.use('/ubereats', userRoutes);
 app.use('/ubereats', restaurantRoutes);
 app.use('/ubereats', dishesRoutes);
+app.use('/ubereats', ordersRoutes);
 // defining port
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server running on port ${port}`.yellow));

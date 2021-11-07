@@ -45,7 +45,7 @@ const PlaceOrder = ({ history }) => {
 
   const ordercreate = useSelector((state) => state.ordercreate);
   const { order, success, error } = ordercreate;
-
+  console.log(cart);
   const placeOrderHandler = () => {
     dispatch(createOrder({
       orderItems: cart.cartItems,
@@ -55,8 +55,7 @@ const PlaceOrder = ({ history }) => {
       shippingPrice: cart.shippingPrice,
       taxPrice: cart.taxPrice,
       totalPrice: cart.totalPrice,
-    }));
-    localStorage.removeItem('restId');
+    }));// localStorage.removeItem('restId');
     handleShow();
   };
 

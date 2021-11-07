@@ -17,7 +17,7 @@ const Shipping = ({ history }) => {
   } = customer;
   const { shippingAddress } = cart;
   const [address, setAddress] = useState(shippingAddress.address);
-  const [city, setCity] = useState(shippingAddress.city || customerSigninInfo.customer[0].location);
+  const [city, setCity] = useState(shippingAddress.city || customerSigninInfo.customer.location);
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
   const [country, setCountry] = useState(shippingAddress.country);
   const dispatch = useDispatch();

@@ -22,12 +22,15 @@ const Orders = ({ match, history }) => {
   const dispatch = useDispatch();
   const orderDetails = useSelector((state) => state.orderDetails);
   const { orderItems, loading, error } = orderDetails;
-  const { cart, address } = orderItems;
+  // console.log(orderItems);
+  // const { cart, address } = orderItems;
+  const cart = orderItems.orderItems;
+  const shippingAdd = orderItems.shippingAddress;
   // const shippingAdd = JSON.parse(address);
-  let shippingAdd = '';
-  if (address) {
-    shippingAdd = JSON.parse(address.replace(/'/g, '"'));
-  }
+  // let shippingAdd = '';
+  // if (address) {
+  //   shippingAdd = JSON.parse(address.replace(/'/g, '"'));
+  // }
   const customer = useSelector((state) => state.customerSignin);
   const {
     customerSigninInfo,
@@ -48,7 +51,7 @@ const Orders = ({ match, history }) => {
   useEffect(() => {
     dispatch(getOrderDetails(orderId));
     setSelectorVal(orderItems.status);
-  }, [dispatch, orderItems]);
+  }, [dispatch]);
 
   const statusUpdateHandler = (e) => {
     setSelectorVal(e.target.value);
@@ -93,7 +96,7 @@ const Orders = ({ match, history }) => {
                   {customerSigninInfo.customer.role === 0 && (
                   <ListGroup.Item>
                     <p> Status: </p>
-                    { selectorVal}
+                    { orderItems.status }
                   </ListGroup.Item>
                   )}
                   {customerSigninInfo.customer.deliverymode && (customerSigninInfo.customer.deliverymode.toLowerCase() === 'Delivery'.toLowerCase()
@@ -135,7 +138,7 @@ const Orders = ({ match, history }) => {
                         <ListGroup.Item>
                           <Row>
                             <Col md={2}>
-                              <Image src={`${API}/dishes/photo/${item.id}`} alt={item.name} fluid rounded />
+                              <Image src={item.photo} alt={item.name} fluid rounded />
                             </Col>
                             <Col>
                               <Link to={`/dishes/${item.id}`}>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 const Order = require('../models/orders');
 // const { errorHandler } = require('../Utils/dbErrorHandler');
@@ -23,6 +24,7 @@ exports.createOrder = (req, res) => {
     user,
     restaurant,
   });
+  order.status = 'Order Received';
   order.save((err, result) => {
     if (err || !result) {
       return res.status(400).send({
@@ -55,4 +57,32 @@ exports.getUserOrders = (req, res) => {
       }
       res.send(orders);
     });
+};
+exports.orderById = (req, res, next, id) => {
+  Order.findById(id).exec((err, order) => {
+    if (err || !order) {
+      return res.status(400).json({
+        error: 'Order not found',
+      });
+    }
+    req.order = order;
+    next();
+  });
+};
+exports.read = (req, res) => res.json(req.order);
+
+exports.updateOrderStatus = async (req, res) => {
+  try {
+    const order = await Order.findOneAndUpdate({ _id: req.order._id }, { status: req.body.status });
+    if (!order) {
+      return res.status(400).json({
+        error,
+      });
+    }
+    res.send(order);
+  } catch (error) {
+    return res.status(400).json({
+      error,
+    });
+  }
 };

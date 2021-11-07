@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable prefer-const */
 /* eslint-disable no-const-assign */
 /* eslint-disable react/self-closing-comp */
@@ -40,9 +41,14 @@ const OrdeListOrders = ({ match }) => {
     { name: 'order received', value: '1' },
     { name: 'delivered', value: '2' },
     { name: 'processing', value: '3' },
+    { name: 'cancelled', value: '3' },
   ];
   const handleFilters = (filters) => {
     setfilter(filters);
+  };
+  const cancelOrder = (orderId) => {
+    dispatch(updateOrderStatus({ status: 'cancelled' }, orderId));
+    window.location.reload();
   };
   if (filter.length) {
     orders = orders.filter(
@@ -127,11 +133,16 @@ const OrdeListOrders = ({ match }) => {
 
                   </td>
                   <td>
-                    <LinkContainer to={`/orders/${order.orderid}`}>
+                    <LinkContainer to={`/orders/${order._id}`}>
                       <Button variant="dark" className="btn-md">
                         View Receipt
                       </Button>
                     </LinkContainer>
+                    {customerSigninInfo && customerSigninInfo.customer.role === 0 && (
+                      <Button variant="dark" className="btn-md" disabled={order.status === 'cancelled' || order.status === 'Delivered'} onClick={() => cancelOrder(order._id)}>
+                        Cancel Order
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}

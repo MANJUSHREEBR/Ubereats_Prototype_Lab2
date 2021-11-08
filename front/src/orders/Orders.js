@@ -51,7 +51,7 @@ const Orders = ({ match, history }) => {
   useEffect(() => {
     dispatch(getOrderDetails(orderId));
     setSelectorVal(orderItems.status);
-  }, [dispatch]);
+  }, [dispatch, orderItems]);
 
   const statusUpdateHandler = (e) => {
     setSelectorVal(e.target.value);
@@ -93,6 +93,10 @@ const Orders = ({ match, history }) => {
                     Order:
                     {orderItems.orderid}
                   </p>
+                  <ListGroup.Item>
+                    <p> Instruction: </p>
+                    { orderItems.instruction }
+                  </ListGroup.Item>
                   {customerSigninInfo.customer.role === 0 && (
                   <ListGroup.Item>
                     <p> Status: </p>
@@ -103,24 +107,26 @@ const Orders = ({ match, history }) => {
                   || customerSigninInfo.customer.deliverymode.toLowerCase() === 'Delivery & Pickup'.toLowerCase()) && (
                   <ListGroup.Item>
                     <label className="text-muted">Change Status here</label>
-                    <select onChange={statusUpdateHandler} className="form-control" value={selectorVal}>
+                    <select onChange={statusUpdateHandler} className="form-control" value={selectorVal} disabled={selectorVal == 'cancelled'}>
                       <option>Select</option>
                       <option value="Order Received">Order Received</option>
                       <option value="Processing">Processing</option>
                       <option value="On the way">On the way</option>
                       <option value="Delivered">Delivered</option>
+                      <option value="cancelled">cancelled</option>
                     </select>
                   </ListGroup.Item>
                   )}
                   {customerSigninInfo.customer.deliverymode && customerSigninInfo.customer.deliverymode.toLowerCase() === 'Pickup'.toLowerCase() && (
                   <ListGroup.Item>
                     <label className="text-muted">Change Status here</label>
-                    <select onChange={statusUpdateHandler} className="form-control" value={selectorVal}>
+                    <select onChange={statusUpdateHandler} className="form-control" value={selectorVal} disabled={selectorVal == 'cancelled'}>
                       <option>Select</option>
                       <option value="Order Received">Order Received</option>
                       <option value="Processing">Processing</option>
                       <option value="Pick up Ready">Pick up Ready</option>
                       <option value="Picked up">Picked up</option>
+                      <option value="cancelled">cancelled</option>
                     </select>
                   </ListGroup.Item>
                   )}
@@ -146,16 +152,16 @@ const Orders = ({ match, history }) => {
                               </Link>
                             </Col>
                             <Col md={4}>
-                              {item.quantity}
+                              {item.qty}
                               {' '}
                               x
                               {' '}
-                              {item.orderedprice}
+                              {item.price}
                               {' '}
                               =
                               {' '}
                               $
-                              {item.quantity * item.orderedprice}
+                              {item.qty * item.price}
                             </Col>
 
                           </Row>
@@ -179,7 +185,7 @@ const Orders = ({ match, history }) => {
                       </Col>
                       <Col>
                         $
-                        {cart && cart.itemsPrice}
+                        {orderItems && orderItems.itemsPrice}
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -190,7 +196,7 @@ const Orders = ({ match, history }) => {
                       </Col>
                       <Col>
                         $
-                        {cart && cart.shippingPrice}
+                        {orderItems && orderItems.shippingPrice}
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -201,7 +207,7 @@ const Orders = ({ match, history }) => {
                       </Col>
                       <Col>
                         $
-                        {cart && cart.taxPrice}
+                        {orderItems && orderItems.taxPrice}
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -212,7 +218,7 @@ const Orders = ({ match, history }) => {
                       </Col>
                       <Col>
                         $
-                        {cart && cart.totalPrice}
+                        {orderItems && orderItems.totalPrice}
                       </Col>
                     </Row>
                   </ListGroup.Item>

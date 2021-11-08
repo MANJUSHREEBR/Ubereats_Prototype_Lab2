@@ -87,12 +87,12 @@ export const getOrderDetails = (id) => (dispatch, getState) => {
     });
 };
 
-export const getMyOrderList = () => (dispatch, getState) => {
+export const getMyOrderList = (page, size) => (dispatch, getState) => {
   dispatch({ type: MY_ORDER_LIST_REQUEST });
   const { customerSignin: { customerSigninInfo } } = getState();
-  let url = `${API}/orders/${customerSigninInfo.customer._id} `;
+  let url = `${API}/orders/${customerSigninInfo.customer._id}?page=${page}&size=${size}`;
 
-  if (customerSigninInfo.customer.role === 1) url = `${API}/restaurant/orders/${customerSigninInfo.customer._id} `;
+  if (customerSigninInfo.customer.role === 1) url = `${API}/restaurant/orders/${customerSigninInfo.customer._id}?page=${page}&size=${size}`;
 
   fetch(url, {
     method: 'GET',

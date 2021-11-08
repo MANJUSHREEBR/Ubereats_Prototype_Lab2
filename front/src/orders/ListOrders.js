@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable prefer-const */
 /* eslint-disable no-const-assign */
@@ -20,6 +21,8 @@ import Checkbox from '../core/Checkbox';
 
 const OrdeListOrders = ({ match }) => {
   const [filter, setfilter] = useState([]);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(5);
   const [selectVlaue] = useState();
   const dispatch = useDispatch();
   const myOrderList = useSelector((state) => state.myOrderList);
@@ -30,8 +33,8 @@ const OrdeListOrders = ({ match }) => {
     customerSigninInfo,
   } = customer;
   useEffect(() => {
-    dispatch(getMyOrderList());
-  }, [dispatch]);
+    dispatch(getMyOrderList(page, size));
+  }, [dispatch, page, size]);
   const showError = () => (
     <div className="alert alert-danger" style={{ display: error ? 'block' : 'none' }}>
       {error}
@@ -46,9 +49,19 @@ const OrdeListOrders = ({ match }) => {
   const handleFilters = (filters) => {
     setfilter(filters);
   };
+  const updateSize = (e) => {
+    setSize(e.target.value);
+    // dispatch(updateOrderStatus({ status: e.target.value }, orderId));
+  };
   const cancelOrder = (orderId) => {
     dispatch(updateOrderStatus({ status: 'cancelled' }, orderId));
     window.location.reload();
+  };
+  const incrementPage = () => {
+    setPage(page + 1);
+  };
+  const decrementPage = () => {
+    setPage(page - 1);
   };
   if (filter.length) {
     orders = orders.filter(
@@ -68,6 +81,15 @@ const OrdeListOrders = ({ match }) => {
       </Row>
       <Row>
         <h4>Orders</h4>
+        <ListGroup.Item>
+          <label className="text-muted">Select page size</label>
+          <select onChange={updateSize} className="form-control" value={size}>
+            <option>Select</option>
+            <option value="2">2</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+          </select>
+        </ListGroup.Item>
         <Col md={12}>
           <Table bordered hover responsive className="table-sm">
             <thead>
@@ -151,7 +173,28 @@ const OrdeListOrders = ({ match }) => {
         </Col>
 
       </Row>
-
+      <Row>
+        <Col md={5} />
+        <Col md={1}>
+          {/* <ListGroup.Item> */}
+          <div style={{ border: '1px solid', padding: '9px' }}>
+            <Button variant="dark" disabled={page <= 1} onClick={decrementPage}>
+              {' '}
+              {'<'}
+              {' '}
+            </Button>
+            {' '}
+            {page}
+            {' '}
+            <Button variant="dark" onClick={incrementPage}>
+              {' '}
+              { '>' }
+              {' '}
+            </Button>
+          </div>
+          {/* </ListGroup.Item> */}
+        </Col>
+      </Row>
     </>
   );
 };

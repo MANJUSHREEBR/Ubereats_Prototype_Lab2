@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/void-dom-elements-no-children */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
@@ -15,6 +16,7 @@ import { createOrder } from '../js/actions/orderAction';
 
 const PlaceOrder = ({ history }) => {
   const [show, setShow] = useState(false);
+  const [specialInstruction, setSpecialInstruction] = useState('');
   const handleClose = () => {
     setShow(false);
     history.push('customer/orders');
@@ -36,9 +38,9 @@ const PlaceOrder = ({ history }) => {
   // calculate prices
   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
 
-  cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + item.price
-  * item.qty, 0));
-  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 35);
+  cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + Number(item.price)
+  * Number(item.qty), 0));
+  cart.shippingPrice = addDecimals(Number(cart.itemsPrice) > 100 ? 0 : 35);
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
   cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice)
    + Number(cart.taxPrice)).toFixed(2);
@@ -51,14 +53,17 @@ const PlaceOrder = ({ history }) => {
       orderItems: cart.cartItems,
       shippingAddress: cart.shippingAddress,
       restaurant: localStorage.getItem('restId'),
-      itemsPrice: cart.itemsPrice,
-      shippingPrice: cart.shippingPrice,
-      taxPrice: cart.taxPrice,
-      totalPrice: cart.totalPrice,
+      itemsPrice: Number(cart.itemsPrice),
+      shippingPrice: Number(cart.shippingPrice),
+      taxPrice: Number(cart.taxPrice),
+      totalPrice: Number(cart.totalPrice),
+      instruction: specialInstruction,
     }));// localStorage.removeItem('restId');
     handleShow();
   };
-
+  const updatespecialInstruction = (e) => {
+    setSpecialInstruction(e.target.value);
+  };
   return (
     <>
       <CheckoutSteps step1 step2 step3 />
@@ -133,6 +138,10 @@ const PlaceOrder = ({ history }) => {
           </ListGroup>
         </Col>
         <Col md={4}>
+          <Card>
+            <textarea type="textarea" placeholder="Add Instructions....." value={specialInstruction} onChange={updatespecialInstruction} />
+          </Card>
+          <hr />
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>

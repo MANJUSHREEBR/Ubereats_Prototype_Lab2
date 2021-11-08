@@ -54,6 +54,9 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: 'Order Received',
     },
+    instruction: {
+      type: String,
+    },
   },
   {
     timestamps: true,

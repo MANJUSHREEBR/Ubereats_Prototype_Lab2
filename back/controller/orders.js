@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 const Order = require('../models/orders');
@@ -13,6 +14,7 @@ exports.createOrder = (req, res) => {
     totalPrice,
     user,
     restaurant,
+    instruction,
   } = req.body;
   const order = new Order({
     orderItems,
@@ -23,6 +25,7 @@ exports.createOrder = (req, res) => {
     totalPrice,
     user,
     restaurant,
+    instruction,
   });
   order.status = 'Order Received';
   order.save((err, result) => {
@@ -35,7 +38,11 @@ exports.createOrder = (req, res) => {
   });
 };
 exports.getRestOrders = (req, res) => {
-  Order.find({ restaurant: req.restaurant._id })
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const size = req.query.size ? parseInt(req.query.size) : 5;
+  const limit = parseInt(size);
+  const skip = (page - 1) * size;
+  Order.find({ restaurant: req.restaurant._id }, {}, { limit, skip })
     .populate('user')
     .exec((err, orders) => {
       if (err) {
@@ -47,7 +54,11 @@ exports.getRestOrders = (req, res) => {
     });
 };
 exports.getUserOrders = (req, res) => {
-  Order.find({ user: req.profile._id })
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const size = req.query.size ? parseInt(req.query.size) : 5;
+  const limit = parseInt(size);
+  const skip = (page - 1) * size;
+  Order.find({ user: req.profile._id }, {}, { limit, skip })
     .populate('restaurant')
     .exec((err, orders) => {
       if (err) {

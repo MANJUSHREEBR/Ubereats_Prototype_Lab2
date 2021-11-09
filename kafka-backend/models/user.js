@@ -54,6 +54,10 @@ const userSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  favorites: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Restaurant',
+  }],
 }, { timestamps: true });
 
 // virtual field

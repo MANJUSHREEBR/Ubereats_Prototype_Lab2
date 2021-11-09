@@ -30,21 +30,6 @@ exports.listAll = (req, res) => {
     console.log('Inside else');
     res.send(results);
   });
-
-//   const search = req.query.search ? (req.query.search) : 'Pickup';
-//   const location = req.query.location ? (req.query.location) : 'San Jose';
-//   const bothType = 'Delivery & Pickup';
-//   const limit = req.query.limit ? parseInt(req.query.limit) : 6;
-//   Restaurant.find({})
-//     .limit(limit)
-//     .exec((err, restaurants) => {
-//       if (err) {
-//         return res.status(400).json({
-//           error: 'Restaurants not found',
-//         });
-//       }
-//       res.send(restaurants);
-//     });
 };
 
 exports.updateRest = (req, res) => {

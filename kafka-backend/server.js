@@ -8,6 +8,8 @@ const { dbConnect } = require('./Utils/dbConnection');
 var userSignup = require('./services/userSignup.js');
 var restSignup = require('./services/restSignup.js');
 var restLists = require('./services/restLists.js');
+var menuLists = require('./services/menuList.js');
+var findDishById = require('./services/findDishById.js');
 dbConnect();
 function handleTopicRequest(topic_name,fname){
     //var topic_name = 'root_topic';
@@ -45,3 +47,5 @@ function handleTopicRequest(topic_name,fname){
 handleTopicRequest("user_signup",userSignup)
 handleTopicRequest("restaurant_signup",restSignup)
 handleTopicRequest("restaurant_lists",restLists)
+handleTopicRequest("list_menu",menuLists)
+handleTopicRequest("find_dishById",findDishById)

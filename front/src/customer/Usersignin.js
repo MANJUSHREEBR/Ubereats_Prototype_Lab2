@@ -40,7 +40,7 @@ const Usersignin = ({ location, history }) => {
   console.log(customerInfo);
   useEffect(() => {
     if (customerSigninInfo && customerSigninInfo.customer.role === 0) {
-      history.push('search/Pickup');
+      history.push('search/Delivery');
     } else if ((customerSigninInfo && customerSigninInfo.customer.role === 1)) {
       history.push(`/restaurant/${customerSigninInfo.customer._id}`);
     }

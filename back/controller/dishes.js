@@ -9,14 +9,16 @@ const mongoose = require('mongoose');
 const { cloudinary } = require('../Utils/cloudinary');
 const { errorHandler } = require('../Utils/dbErrorHandler');
 const Dishes = require('../models/dishes');
+const kafka = require('../kafka/client');
 
 const { ObjectId } = mongoose.Schema;
 
 exports.findDishById = (req, res, next, id) => {
-  Dishes.findById(id).exec((err, dish) => {
-    if (err || !dish) {
-      return res.status(400).json({
-        error: 'User not found',
+  kafka.make_request('find_dishById', id, (err, dish) => {
+    if (err) {
+      console.log('Inside err');
+      return res.status(400).send({
+        error: 'Dishes not found',
       });
     }
     req.dish = dish;
@@ -74,8 +76,6 @@ exports.update = (req, res) => {
         .upload(files.photo.path, {
           upload_preset: 'uberEats',
         });
-      //   item.data = uploadedResponse.url;
-      //   item.contentType = files.photo.type;
       dishes.photo = uploadedResponse.url;
     }
     dishes.restaurant = req.restaurant._id;
@@ -90,14 +90,14 @@ exports.update = (req, res) => {
   });
 };
 exports.listAll = async (req, res) => {
-  Dishes.find({ restaurant: req.restaurant._id })
-    .populate('restaurant')
-    .exec((err, restaurants) => {
-      if (err) {
-        return res.status(400).json({
-          error: 'Dishes not found',
-        });
-      }
-      res.send(restaurants);
-    });
+  kafka.make_request('list_menu', req.restaurant, (err, results) => {
+    if (err) {
+      console.log('Inside err');
+      return res.status(400).send({
+        error: 'Dishes not found',
+      });
+    }
+    console.log('Inside else');
+    res.send(results);
+  });
 };

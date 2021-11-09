@@ -113,7 +113,6 @@ const Orders = ({ match, history }) => {
                       <option value="Processing">Processing</option>
                       <option value="On the way">On the way</option>
                       <option value="Delivered">Delivered</option>
-                      <option value="cancelled">cancelled</option>
                     </select>
                   </ListGroup.Item>
                   )}
@@ -126,7 +125,6 @@ const Orders = ({ match, history }) => {
                       <option value="Processing">Processing</option>
                       <option value="Pick up Ready">Pick up Ready</option>
                       <option value="Picked up">Picked up</option>
-                      <option value="cancelled">cancelled</option>
                     </select>
                   </ListGroup.Item>
                   )}

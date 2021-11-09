@@ -8,7 +8,7 @@ function handle_request(query, callback){
   const location = query.location ? (query.location) : 'San Jose';
   const bothType = 'Delivery & Pickup';
   const limit = query.limit ? parseInt(query.limit) : 6;
-  Restaurant.find({deliverymode: search})
+  Restaurant.find({deliverymode: {'$in' : [search, bothType] }})
     .limit(limit)
     .exec((err, restaurants) => {
       if (err) {

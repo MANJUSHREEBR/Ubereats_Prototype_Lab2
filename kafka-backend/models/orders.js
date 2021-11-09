@@ -1,38 +1,66 @@
 const mongoose = require('mongoose');
 
-const { Schema } = mongoose;
-const { ObjectId } = mongoose.Schema;
-
-const CartItemSchema = new mongoose.Schema(
+const orderSchema = new mongoose.Schema(
   {
-    dishes: { type: ObjectId, ref: 'Dishes' },
-    name: String,
-    price: Number,
-    count: Number,
-  },
-  { timestamps: true },
-);
-
-const CartItem = mongoose.model('CartItem', CartItemSchema);
-
-const OrderSchema = new mongoose.Schema(
-  {
-    products: [CartItemSchema],
-    transaction_id: {},
-    amount: { type: Number },
-    address: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurant',
+    },
+    orderItems: [
+      {
+        name: { type: String, required: true },
+        qty: { type: Number, required: true },
+        photo: { type: String, required: true },
+        price: { type: Number, required: true },
+        dish: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Dishes',
+        },
+      },
+    ],
+    shippingAddress: {
+      address: { type: String },
+      city: { type: String },
+      postalCode: { type: String },
+      country: { type: String },
+    },
+    taxPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    shippingPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    itemsPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
     status: {
       type: String,
-      default: 'order Received',
-      enum: ['order Received', 'Preparing', 'Delivered', 'Cancelled'], // enum means string objects
+      default: 'Order Received',
     },
-    updated: Date,
-    user: { type: ObjectId, ref: 'User' },
-    restaurant: { type: ObjectId, ref: 'Restaurant' },
+    instruction: {
+      type: String,
+    },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
-const Order = mongoose.model('Order', OrderSchema);
-
-module.exports = { Order, CartItem };
+module.exports = mongoose.model('Order', orderSchema);

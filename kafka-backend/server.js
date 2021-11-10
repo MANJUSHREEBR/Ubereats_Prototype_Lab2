@@ -10,6 +10,10 @@ var restSignup = require('./services/restSignup.js');
 var restLists = require('./services/restLists.js');
 var menuLists = require('./services/menuList.js');
 var findDishById = require('./services/findDishById.js');
+var findCustomerById = require('./services/findCustomerById.js');
+var findRestaurantById = require('./services/findRestaurantById.js');
+var addFavorites = require('./services/addFavorites.js');
+var getFavorites = require('./services/getFavorites.js');
 dbConnect();
 function handleTopicRequest(topic_name,fname){
     //var topic_name = 'root_topic';
@@ -49,3 +53,7 @@ handleTopicRequest("restaurant_signup",restSignup)
 handleTopicRequest("restaurant_lists",restLists)
 handleTopicRequest("list_menu",menuLists)
 handleTopicRequest("find_dishById",findDishById)
+handleTopicRequest("find_customerById",findCustomerById)
+handleTopicRequest("find_restaurantById",findRestaurantById)
+handleTopicRequest("add_favorites",addFavorites)
+handleTopicRequest("get_favorites",getFavorites)

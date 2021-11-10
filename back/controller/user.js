@@ -6,17 +6,45 @@ const formidable = require('formidable');
 const _ = require('lodash');
 const fs = require('fs');
 const User = require('../models/user');
+const kafka = require('../kafka/client');
 const { cloudinary } = require('../Utils/cloudinary');
 
 exports.customerById = (req, res, next, id) => {
-  User.findById(id).exec((err, customer) => {
-    if (err || !customer) {
-      return res.status(400).json({
-        error: 'User not found',
+  kafka.make_request('find_customerById', id, (err, customer) => {
+    if (err) {
+      console.log('Inside err');
+      return res.status(400).send({
+        error: 'Customer not found',
       });
     }
     req.profile = customer;
     next();
+  });
+};
+
+exports.addFavorites = (req, res) => {
+  const userid = req.profile._id;
+  const restid = req.restaurant._id;
+  kafka.make_request('add_favorites', { userid, restid }, (err, customer) => {
+    if (err) {
+      console.log('Inside err');
+      return res.status(400).send({
+        error: 'Customer not found',
+      });
+    }
+    res.json(customer.favorites);
+  });
+};
+
+exports.getFavorites = (req, res) => {
+  kafka.make_request('get_favorites', req.profile._id, (err, customer) => {
+    if (err) {
+      console.log('Inside err');
+      return res.status(400).send({
+        error: 'Customer not found',
+      });
+    }
+    res.json(customer.favorites);
   });
 };
 
@@ -51,28 +79,4 @@ exports.updateUser = (req, res) => {
       res.json(result);
     });
   });
-};
-
-exports.addFavorites = (req, res) => {
-  User.findOneAndUpdate({ _id: req.profile._id }, { $push: { favorites: req.restaurant._id } }, { new: true }, (error, data) => {
-    if (error) {
-      return res.status(400).json({
-        error: 'Could not update favorites',
-      });
-    }
-    res.json(data);
-  });
-};
-
-exports.getFavorites = (req, res) => {
-  User.findOne({ _id: req.profile._id })
-    .populate('favorites')
-    .exec((err, data) => {
-      if (err) {
-        return res.status(400).json({
-          error: 'Could not get favorites',
-        });
-      }
-      res.json(data.favorites);
-    });
 };

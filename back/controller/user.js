@@ -10,16 +10,25 @@ const kafka = require('../kafka/client');
 const { cloudinary } = require('../Utils/cloudinary');
 
 exports.customerById = (req, res, next, id) => {
-  kafka.make_request('find_customerById', id, (err, customer) => {
-    if (err) {
-      console.log('Inside err');
-      return res.status(400).send({
-        error: 'Customer not found',
+  User.findById(id).exec((err, customer) => {
+    if (err || !customer) {
+      return res.status(400).json({
+        error: 'User not found',
       });
     }
     req.profile = customer;
     next();
   });
+  // kafka.make_request('find_customerById', id, (err, customer) => {
+  //   if (err) {
+  //     console.log('Inside err');
+  //     return res.status(400).send({
+  //       error: 'Customer not found',
+  //     });
+  //   }
+  //   req.profile = customer;
+  //   next();
+  // });
 };
 
 exports.addFavorites = (req, res) => {

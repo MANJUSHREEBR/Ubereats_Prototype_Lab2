@@ -6,16 +6,25 @@ const Restaurant = require('../models/restaurant');
 const { cloudinary } = require('../Utils/cloudinary');
 
 exports.findRestaurantById = (req, res, next, id) => {
-  kafka.make_request('find_restaurantById', id, (err, restaurant) => {
-    if (err) {
-      console.log('Inside err');
-      return res.status(400).send({
+  Restaurant.findById(id).exec((err, restaurant) => {
+    if (err || !restaurant) {
+      return res.status(400).json({
         error: 'Restaurant not found',
       });
     }
     req.restaurant = restaurant;
     next();
   });
+  // kafka.make_request('find_restaurantById', id, (err, restaurant) => {
+  //   if (err) {
+  //     console.log('Inside err');
+  //     return res.status(400).send({
+  //       error: 'Restaurant not found',
+  //     });
+  //   }
+  //   req.restaurant = restaurant;
+  //   next();
+  // });
 };
 
 exports.listAll = (req, res) => {

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
@@ -29,6 +30,7 @@ const Adddishes = ({ history }) => {
     mainingredient: editDish.dishtype || '',
     id: editDish.id || '',
     category: editDish.category || '',
+    photo: editDish.photo || '',
     loading: '',
     error: '',
     createdDish: '',
@@ -49,6 +51,7 @@ const Adddishes = ({ history }) => {
     formData,
     id,
     category,
+    photo,
   } = values;
   const customer = useSelector((state) => state.customerSignin);
   const {
@@ -67,7 +70,7 @@ const Adddishes = ({ history }) => {
   const clickSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: '', loading: true });
-    disPatch(editDishes(customerSigninInfo.customer[0].id, editDish.id, customerSigninInfo.token, formData));
+    disPatch(editDishes(customerSigninInfo.customer._id, editDish._id, customerSigninInfo.token, formData));
     handleShow();
   };
 
@@ -138,7 +141,7 @@ const Adddishes = ({ history }) => {
       <div className="col-md-3" />
       <div className="col-md-1">
         <Image
-          src={`${API}/dishes/photo/${id}`}
+          src={photo}
           alt="Image not found"
           id="imageDiv1"
           onError={(e) => { e.target.onerror = null; e.target.src = 'https://dummyimage.com/100.png/09f/fff'; }}

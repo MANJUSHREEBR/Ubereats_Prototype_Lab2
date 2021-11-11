@@ -14,16 +14,25 @@ const kafka = require('../kafka/client');
 const { ObjectId } = mongoose.Schema;
 
 exports.findDishById = (req, res, next, id) => {
-  kafka.make_request('find_dishById', id, (err, dish) => {
-    if (err) {
-      console.log('Inside err');
-      return res.status(400).send({
-        error: 'Dishes not found',
+  Dishes.findById(id).exec((err, dish) => {
+    if (err || !dish) {
+      return res.status(400).json({
+        error: 'User not found',
       });
     }
     req.dish = dish;
     next();
   });
+  // kafka.make_request('find_dishById', id, (err, dish) => {
+  //   if (err) {
+  //     console.log('Inside err');
+  //     return res.status(400).send({
+  //       error: 'Dishes not found',
+  //     });
+  //   }
+  //   req.dish = dish;
+  //   next();
+  // });
 };
 
 exports.create = (req, res) => {

@@ -66,7 +66,7 @@ export const editDishes = (restid, dishid, token, formData) => (dispatch) => {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `${token}`,
     },
     body: formData,
 

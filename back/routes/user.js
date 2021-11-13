@@ -4,7 +4,9 @@ const router = express.Router();
 const { isAuth, isRestaurantAuth, isRestaurant } = require('../controller/auth');
 const { checkAuth } = require('../Utils/passport');
 
-const { customerById, updateUser, addFavorites, getFavorites } = require('../controller/user');
+const {
+  customerById, updateUser, addFavorites, getFavorites,
+} = require('../controller/user');
 const {
   findRestaurantById,
 } = require('../controller/restaurant');

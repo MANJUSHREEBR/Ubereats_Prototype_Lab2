@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-undef */
@@ -5,6 +6,7 @@
 const formidable = require('formidable');
 const _ = require('lodash');
 const fs = require('fs');
+const CircularJSON = require('circular-json');
 const User = require('../models/user');
 const kafka = require('../kafka/client');
 const { cloudinary } = require('../Utils/cloudinary');
@@ -79,13 +81,22 @@ exports.updateUser = (req, res) => {
       //   item.contentType = files.photo.type;
       user.photo = uploadedResponse.url;
     }
-    user.save((err, result) => {
+    kafka.make_request('update_customerdetails', user, (err, customer) => {
       if (err) {
-        return res.status(400).json({
-          error: errorHandler(err),
+        console.log('Inside err');
+        return res.status(400).send({
+          error: 'Customer not found',
         });
       }
-      res.json(result);
+      res.json(customer);
     });
+    // user.save((err, result) => {
+    //   if (err) {
+    //     return res.status(400).json({
+    //       error: errorHandler(err),
+    //     });
+    //   }
+    //   res.json(result);
+    // });
   });
 };

@@ -6,7 +6,8 @@ exports.dbConnect = async() => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
-        useFindAndModify: false
+        useFindAndModify: false,
+        poolSize: 10,
     });
     console.log('MongoDB connected...');
 } catch (err) {

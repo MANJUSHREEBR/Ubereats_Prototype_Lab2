@@ -81,15 +81,6 @@ const OrdeListOrders = ({ match }) => {
       </Row>
       <Row>
         <h4>Orders</h4>
-        <ListGroup.Item>
-          <label className="text-muted">Select page size</label>
-          <select onChange={updateSize} className="form-control" value={size}>
-            <option>Select</option>
-            <option value="2">2</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-          </select>
-        </ListGroup.Item>
         <Col md={12}>
           <Table bordered hover responsive className="table-sm">
             <thead>
@@ -161,7 +152,7 @@ const OrdeListOrders = ({ match }) => {
                       </Button>
                     </LinkContainer>
                     {customerSigninInfo && customerSigninInfo.customer.role === 0 && (
-                      <Button variant="dark" className="btn-md" disabled={order.status === 'cancelled' || order.status === 'Delivered'} onClick={() => cancelOrder(order._id)}>
+                      <Button variant="dark" className="btn-md" disabled={order.status !== 'Order Received'} onClick={() => cancelOrder(order._id)}>
                         Cancel Order
                       </Button>
                     )}
@@ -174,7 +165,18 @@ const OrdeListOrders = ({ match }) => {
 
       </Row>
       <Row>
-        <Col md={5} />
+        <Col md={3} />
+        <Col md={2}>
+          <ListGroup.Item>
+            {/* <label className="text-muted">Select page size</label> */}
+            <select onChange={updateSize} className="form-control" value={size}>
+              <option>Select</option>
+              <option value="2">2</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+            </select>
+          </ListGroup.Item>
+        </Col>
         <Col md={1}>
           {/* <ListGroup.Item> */}
           <div style={{ border: '1px solid', padding: '9px' }}>

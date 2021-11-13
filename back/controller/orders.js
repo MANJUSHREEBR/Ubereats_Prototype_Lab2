@@ -1,41 +1,54 @@
+/* eslint-disable no-undef */
 /* eslint-disable radix */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 const Order = require('../models/orders');
+const kafka = require('../kafka/client');
 // const { errorHandler } = require('../Utils/dbErrorHandler');
 
 exports.createOrder = (req, res) => {
-  const {
-    orderItems,
-    shippingAddress,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-    user,
-    restaurant,
-    instruction,
-  } = req.body;
-  const order = new Order({
-    orderItems,
-    shippingAddress,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-    user,
-    restaurant,
-    instruction,
-  });
-  order.status = 'Order Received';
-  order.save((err, result) => {
-    if (err || !result) {
+  console.log(req.body);
+  kafka.make_request('create_order', req.body, (err, results) => {
+    if (err) {
+      console.log('Inside err');
       return res.status(400).send({
-        error: 'Restaurants not found',
+        error: 'Restaurant not found',
       });
     }
-    res.send(result);
+    console.log('order placed');
+    res.send(results);
   });
+  // const {
+  //   orderItems,
+  //   shippingAddress,
+  //   itemsPrice,
+  //   taxPrice,
+  //   shippingPrice,
+  //   totalPrice,
+  //   user,
+  //   restaurant,
+  //   instruction,
+  // } = req.body;
+  // const order = new Order({
+  //   orderItems,
+  //   shippingAddress,
+  //   itemsPrice,
+  //   taxPrice,
+  //   shippingPrice,
+  //   totalPrice,
+  //   user,
+  //   restaurant,
+  //   instruction,
+  // });
+  // order.status = 'Order Received';
+  // order.save((err, result) => {
+  //   if (err || !result) {
+  //     return res.status(400).send({
+  //       error: 'Restaurants not found',
+  //     });
+  //   }
+  //   res.send(result);
+  // });
 };
 exports.getRestOrders = (req, res) => {
   const page = req.query.page ? parseInt(req.query.page) : 1;
@@ -44,6 +57,7 @@ exports.getRestOrders = (req, res) => {
   const skip = (page - 1) * size;
   Order.find({ restaurant: req.restaurant._id }, {}, { limit, skip })
     .populate('user')
+    .sort({ createdAt: -1 })
     .exec((err, orders) => {
       if (err) {
         return res.status(400).json({
@@ -60,6 +74,7 @@ exports.getUserOrders = (req, res) => {
   const skip = (page - 1) * size;
   Order.find({ user: req.profile._id }, {}, { limit, skip })
     .populate('restaurant')
+    .sort({ createdAt: -1 })
     .exec((err, orders) => {
       if (err) {
         return res.status(400).json({

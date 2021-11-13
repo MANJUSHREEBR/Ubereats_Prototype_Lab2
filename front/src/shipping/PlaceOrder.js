@@ -138,7 +138,9 @@ const PlaceOrder = ({ history }) => {
           </ListGroup>
         </Col>
         <Col md={4}>
+          <h5>Add Instruction Here:</h5>
           <Card>
+
             <textarea type="textarea" placeholder="Add Instructions....." value={specialInstruction} onChange={updatespecialInstruction} />
           </Card>
           <hr />

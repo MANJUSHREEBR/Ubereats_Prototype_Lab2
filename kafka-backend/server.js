@@ -1,6 +1,7 @@
 var connection =  new require('./kafka/Connection');
 require('dotenv').config();
 const { dbConnect } = require('./Utils/dbConnection');
+//const CircularJSON = require('circular-json');
 
 //topics files
 //var signin = require('./services/signin.js');
@@ -14,6 +15,9 @@ var findCustomerById = require('./services/findCustomerById.js');
 var findRestaurantById = require('./services/findRestaurantById.js');
 var addFavorites = require('./services/addFavorites.js');
 var getFavorites = require('./services/getFavorites.js');
+var createOrder = require('./services/createOrder.js');
+var updateUser = require('./services/updateUser.js');
+
 dbConnect();
 function handleTopicRequest(topic_name,fname){
     //var topic_name = 'root_topic';
@@ -57,3 +61,5 @@ handleTopicRequest("find_customerById",findCustomerById)
 handleTopicRequest("find_restaurantById",findRestaurantById)
 handleTopicRequest("add_favorites",addFavorites)
 handleTopicRequest("get_favorites",getFavorites)
+handleTopicRequest("create_order",createOrder)
+handleTopicRequest("update_customerdetails",updateUser)

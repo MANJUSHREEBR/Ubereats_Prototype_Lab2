@@ -67,7 +67,7 @@ const Orders = ({ match, history }) => {
           <Row>
             <Col md={8}>
               <ListGroup variant="flush">
-                {shippingAdd && shippingAdd.address && (
+                {/* {shippingAdd && shippingAdd.address && (
                 <ListGroup.Item>
                   <p>
                     <strong>Address: </strong>
@@ -87,7 +87,7 @@ const Orders = ({ match, history }) => {
                     {' '}
                   </p>
                 </ListGroup.Item>
-                )}
+                )} */}
                 <ListGroup.Item>
                   <p>
                     Order:

@@ -51,7 +51,7 @@ const PlaceOrder = ({ history }) => {
   const placeOrderHandler = () => {
     dispatch(createOrder({
       orderItems: cart.cartItems,
-      shippingAddress: cart.shippingAddress,
+      shippingAddress: ' ',
       restaurant: localStorage.getItem('restId'),
       itemsPrice: Number(cart.itemsPrice),
       shippingPrice: Number(cart.shippingPrice),

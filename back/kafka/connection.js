@@ -3,7 +3,7 @@ const kafka = require('kafka-node');
 function ConnectionProvider() {
   this.getConsumer = function (topic_name) {
     // if (!this.kafkaConsumerConnection) {
-    this.client = new kafka.KafkaClient('52.15.136.150:2181');
+    this.client = new kafka.KafkaClient('3.17.167.226:2181');
     // this.client = new kafka.Client("localhost:2181");
     /* this.client.refreshMetadata([{topic: topic_name}], (err) => {
                 if (err) {
@@ -23,7 +23,7 @@ function ConnectionProvider() {
   // Code will be executed when we start Producer
   this.getProducer = function () {
     if (!this.kafkaProducerConnection) {
-      this.client = new kafka.KafkaClient('52.15.136.150:2181');
+      this.client = new kafka.KafkaClient('3.17.167.226:2181');
       /* this.client.refreshMetadata([{topic: topic_name}], (err) => {
                 if (err) {
                     console.warn('Error refreshing kafka metadata', err);

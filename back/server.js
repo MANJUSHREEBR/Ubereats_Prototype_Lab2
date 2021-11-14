@@ -21,7 +21,7 @@ const app = express();
 
 dbConnect();
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://52.15.136.150:3000');
+  res.setHeader('Access-Control-Allow-Origin', 'http://3.17.167.226:3000');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE, UPDATE');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
   res.setHeader('Access-Control-Allow-Credentials', true);

@@ -5,7 +5,7 @@ const Restaurant = require('../models/restaurant');
 const { errorHandler } = require('../Utils/dbErrorHandler');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const { auth } = require('../utils/passport');
+const { auth } = require('../Utils/passport');
 const kafka = require('../kafka/client');
 
 auth();
